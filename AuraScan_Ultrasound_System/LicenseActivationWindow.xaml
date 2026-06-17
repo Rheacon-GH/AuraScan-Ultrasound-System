@@ -1,0 +1,59 @@
+<Window x:Class="AuraScan_Ultrasound_System.LicenseActivationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Activate AuraScan License" Height="420" Width="460" WindowStartupLocation="CenterScreen"
+        WindowStyle="ToolWindow" ResizeMode="NoResize" Background="#1A1A2E" Foreground="White">
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Machine ID -->
+        <TextBlock Text="Machine ID:" Grid.Row="0" Foreground="#8888AA" FontSize="12" Margin="0,0,0,4"/>
+        <TextBox x:Name="MachineIdTextBox" Grid.Row="1" IsReadOnly="True"
+                 Background="#2D2D44" Foreground="White" Padding="6,4" FontFamily="Consolas" FontSize="12"
+                 BorderBrush="#3A3A5C" BorderThickness="1"/>
+
+        <!-- License Key -->
+        <TextBlock Text="License Key:" Grid.Row="2" Foreground="#8888AA" FontSize="12" Margin="0,12,0,4"/>
+        <TextBox x:Name="LicenseKeyTextBox" Grid.Row="3"
+                 Background="#2D2D44" Foreground="White" Padding="6,4" FontSize="13"
+                 BorderBrush="#3A3A5C" BorderThickness="1"/>
+
+        <!-- Customer -->
+        <TextBlock Text="Customer (optional):" Grid.Row="4" Foreground="#8888AA" FontSize="12" Margin="0,12,0,4"/>
+        <TextBox x:Name="CustomerTextBox" Grid.Row="5"
+                 Background="#2D2D44" Foreground="White" Padding="6,4" FontSize="13"
+                 BorderBrush="#3A3A5C" BorderThickness="1"/>
+
+        <!-- License Type -->
+        <TextBlock Text="License Type:" Grid.Row="6" Foreground="#8888AA" FontSize="12" Margin="0,12,0,4"/>
+        <ComboBox x:Name="LicenseTypeCombo" Grid.Row="7" Width="180" HorizontalAlignment="Left"
+                  Background="#2D2D44" Foreground="White" Padding="6,4" FontSize="13"
+                  BorderBrush="#3A3A5C" BorderThickness="1"/>
+
+        <!-- Offline-mode hint -->
+        <TextBlock Grid.Row="8" Foreground="#666688" FontSize="10" TextWrapping="Wrap" Margin="0,14,0,0"
+                   Text="If Azure license server is not configured, activation is stored locally and can be reconciled later."/>
+
+        <!-- Buttons -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="9"
+                    VerticalAlignment="Bottom" Margin="0,12,0,0">
+            <Button x:Name="ActivateButton" Content="✔ Activate" Width="100" Height="32" Margin="6"
+                    Click="ActivateButton_Click" FontSize="13" FontWeight="SemiBold"
+                    Background="#00B4D8" Foreground="White" BorderThickness="0" Cursor="Hand"/>
+            <Button Content="Cancel" Width="100" Height="32" Margin="6"
+                    Click="CancelButton_Click" FontSize="13"
+                    Background="#2D2D44" Foreground="#CCCCCC" BorderBrush="#3A3A5C" BorderThickness="1" Cursor="Hand"/>
+        </StackPanel>
+    </Grid>
+</Window>

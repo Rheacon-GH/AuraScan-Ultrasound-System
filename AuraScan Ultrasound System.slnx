@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="AuraScan Ultrasound System.csproj" />
+  <Project Path="AuraScan.Core/AuraScan.Core.csproj" />
+  <Project Path="AuraScan.Server/AuraScan.Server.csproj" />
+</Solution>
