@@ -307,11 +307,7 @@
                     </StackPanel>
                 </Border>
 
-                <!-- Close button (replaces window title bar close) -->
-                <Button Grid.Column="5" Content="✕" Click="CloseButton_Click"
-                        Background="Transparent" Foreground="#FF6666" FontSize="16" FontWeight="Bold"
-                        BorderThickness="0" Cursor="Hand" Padding="10,2" VerticalAlignment="Center"
-                        ToolTip="Exit AuraScan"/>
+
             </Grid>
         </Border>
 
@@ -331,11 +327,11 @@
 
                     <!-- Scan control -->
                     <Button Content="▶ Scan" Style="{StaticResource DarkButton}" Command="{Binding StartScanCommand}"
-                            Background="#006400" Foreground="White" FontWeight="Bold"/>
+                            Width="80" Background="#006400" Foreground="White" FontWeight="Bold"/>
                     <Button Content="⏸ Freeze" Style="{StaticResource DarkButton}" Command="{Binding FreezeCommand}"
-                            Background="#B8860B" Foreground="White"/>
+                            Width="80" Background="#B8860B" Foreground="White"/>
                     <Button Content="⏹ Stop" Style="{StaticResource DarkButton}" Command="{Binding StopScanCommand}"
-                            Background="#8B0000" Foreground="White"/>
+                            Width="80" Background="#8B0000" Foreground="White"/>
                 </StackPanel>
 
                 <!-- Right side: presets, frame rate, mode indicator -->
@@ -487,11 +483,11 @@
 
                             <!-- Connect / Disconnect / Discover buttons -->
                             <WrapPanel Margin="0,6,0,0">
-                                <Button Content="🔌 Connect" Style="{StaticResource DarkButton}"
+                                <Button Content="🔌 Connect" Style="{StaticResource DarkButton}" Width="100"
                                         Command="{Binding ConnectProbeCommand}" Background="#006400" Foreground="White"/>
-                                <Button Content="⏏ Disconnect" Style="{StaticResource DarkButton}"
+                                <Button Content="⏏ Disconnect" Style="{StaticResource DarkButton}" Width="100"
                                         Command="{Binding DisconnectProbeCommand}"/>
-                                <Button Content="🔍 Discover" Style="{StaticResource DarkButton}"
+                                <Button Content="🔍 Discover" Style="{StaticResource DarkButton}" Width="100"
                                         Command="{Binding DiscoverProbesCommand}" ToolTip="Scan for probes"/>
                             </WrapPanel>
 
@@ -610,18 +606,18 @@
                         <StackPanel>
                             <TextBlock Text="MEASUREMENTS" Style="{StaticResource ControlLabel}" FontWeight="Bold"/>
                             <WrapPanel>
-                                <Button Content="📏 Dist" Style="{StaticResource DarkButton}"
+                                <Button Content="📏 Dist" Style="{StaticResource DarkButton}" Width="65"
                                         Command="{Binding SetMeasurementModeCommand}" CommandParameter="Distance"/>
-                                <Button Content="⭕ Area" Style="{StaticResource DarkButton}"
+                                <Button Content="⭕ Area" Style="{StaticResource DarkButton}" Width="65"
                                         Command="{Binding SetMeasurementModeCommand}" CommandParameter="Area"/>
-                                <Button Content="📦 Vol" Style="{StaticResource DarkButton}"
+                                <Button Content="📦 Vol" Style="{StaticResource DarkButton}" Width="65"
                                         Command="{Binding SetMeasurementModeCommand}" CommandParameter="Volume"/>
-                                <Button Content="🔄 Vel" Style="{StaticResource DarkButton}"
+                                <Button Content="🔄 Vel" Style="{StaticResource DarkButton}" Width="65"
                                         Command="{Binding SetMeasurementModeCommand}" CommandParameter="Velocity"/>
                             </WrapPanel>
                             <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
-                                <Button Content="Undo" Style="{StaticResource DarkButton}" Command="{Binding UndoMeasurementCommand}"/>
-                                <Button Content="Clear" Style="{StaticResource DarkButton}" Command="{Binding ClearMeasurementsCommand}"/>
+                                <Button Content="Undo" Style="{StaticResource DarkButton}" Width="65" Command="{Binding UndoMeasurementCommand}"/>
+                                <Button Content="Clear" Style="{StaticResource DarkButton}" Width="65" Command="{Binding ClearMeasurementsCommand}"/>
                             </StackPanel>
                         </StackPanel>
                     </Border>

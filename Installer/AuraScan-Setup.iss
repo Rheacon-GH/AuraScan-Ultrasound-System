@@ -49,7 +49,6 @@ OutputBaseFilename=AuraScan-Setup-{#MyAppVersion}
 Compression=lzma2/ultra64
 SolidCompression=yes
 ; Appearance
-SetupIconFile={#WkPublish}\AuraScan Ultrasound System.exe
 WizardStyle=modern
 ; Privileges
 PrivilegesRequired=admin

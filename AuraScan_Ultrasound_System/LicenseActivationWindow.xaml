@@ -4,56 +4,76 @@
         Title="Activate AuraScan License" Height="420" Width="460" WindowStartupLocation="CenterScreen"
         WindowStyle="ToolWindow" ResizeMode="NoResize" Background="#1A1A2E" Foreground="White">
     <Grid Margin="16">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+        <!-- Activation Panel (default view) -->
+        <StackPanel x:Name="ActivationPanel">
+            <TextBlock Text="Machine ID:" Foreground="#8888AA" FontSize="12" Margin="0,0,0,4"/>
+            <TextBox x:Name="MachineIdTextBox" IsReadOnly="True"
+                     Background="#2D2D44" Foreground="White" Padding="6,4" FontFamily="Consolas" FontSize="12"
+                     BorderBrush="#3A3A5C" BorderThickness="1"/>
 
-        <!-- Machine ID -->
-        <TextBlock Text="Machine ID:" Grid.Row="0" Foreground="#8888AA" FontSize="12" Margin="0,0,0,4"/>
-        <TextBox x:Name="MachineIdTextBox" Grid.Row="1" IsReadOnly="True"
-                 Background="#2D2D44" Foreground="White" Padding="6,4" FontFamily="Consolas" FontSize="12"
-                 BorderBrush="#3A3A5C" BorderThickness="1"/>
+            <TextBlock Text="License Key:" Foreground="#8888AA" FontSize="12" Margin="0,12,0,4"/>
+            <TextBox x:Name="LicenseKeyTextBox"
+                     Background="#2D2D44" Foreground="White" Padding="6,4" FontSize="13"
+                     BorderBrush="#3A3A5C" BorderThickness="1"/>
 
-        <!-- License Key -->
-        <TextBlock Text="License Key:" Grid.Row="2" Foreground="#8888AA" FontSize="12" Margin="0,12,0,4"/>
-        <TextBox x:Name="LicenseKeyTextBox" Grid.Row="3"
-                 Background="#2D2D44" Foreground="White" Padding="6,4" FontSize="13"
-                 BorderBrush="#3A3A5C" BorderThickness="1"/>
+            <TextBlock Text="Customer (optional):" Foreground="#8888AA" FontSize="12" Margin="0,12,0,4"/>
+            <TextBox x:Name="CustomerTextBox"
+                     Background="#2D2D44" Foreground="White" Padding="6,4" FontSize="13"
+                     BorderBrush="#3A3A5C" BorderThickness="1"/>
 
-        <!-- Customer -->
-        <TextBlock Text="Customer (optional):" Grid.Row="4" Foreground="#8888AA" FontSize="12" Margin="0,12,0,4"/>
-        <TextBox x:Name="CustomerTextBox" Grid.Row="5"
-                 Background="#2D2D44" Foreground="White" Padding="6,4" FontSize="13"
-                 BorderBrush="#3A3A5C" BorderThickness="1"/>
+            <TextBlock Text="License Type:" Foreground="#8888AA" FontSize="12" Margin="0,12,0,4"/>
+            <ComboBox x:Name="LicenseTypeCombo" Width="180" HorizontalAlignment="Left"
+                      Background="#2D2D44" Foreground="White" Padding="6,4" FontSize="13"
+                      BorderBrush="#3A3A5C" BorderThickness="1"/>
 
-        <!-- License Type -->
-        <TextBlock Text="License Type:" Grid.Row="6" Foreground="#8888AA" FontSize="12" Margin="0,12,0,4"/>
-        <ComboBox x:Name="LicenseTypeCombo" Grid.Row="7" Width="180" HorizontalAlignment="Left"
-                  Background="#2D2D44" Foreground="White" Padding="6,4" FontSize="13"
-                  BorderBrush="#3A3A5C" BorderThickness="1"/>
+            <TextBlock Foreground="#666688" FontSize="10" TextWrapping="Wrap" Margin="0,14,0,0"
+                       Text="If Azure license server is not configured, activation is stored locally and can be reconciled later."/>
 
-        <!-- Offline-mode hint -->
-        <TextBlock Grid.Row="8" Foreground="#666688" FontSize="10" TextWrapping="Wrap" Margin="0,14,0,0"
-                   Text="If Azure license server is not configured, activation is stored locally and can be reconciled later."/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,12,0,0">
+                <Button x:Name="ActivateButton" Content="✔ Activate" Width="100" Height="32" Margin="6"
+                        Click="ActivateButton_Click" FontSize="13" FontWeight="SemiBold"
+                        Background="#00B4D8" Foreground="White" BorderThickness="0" Cursor="Hand"/>
+                <Button Content="Cancel" Width="100" Height="32" Margin="6"
+                        Click="CancelButton_Click" FontSize="13"
+                        Background="#2D2D44" Foreground="#CCCCCC" BorderBrush="#3A3A5C" BorderThickness="1" Cursor="Hand"/>
+            </StackPanel>
+        </StackPanel>
 
-        <!-- Buttons -->
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="9"
-                    VerticalAlignment="Bottom" Margin="0,12,0,0">
-            <Button x:Name="ActivateButton" Content="✔ Activate" Width="100" Height="32" Margin="6"
-                    Click="ActivateButton_Click" FontSize="13" FontWeight="SemiBold"
-                    Background="#00B4D8" Foreground="White" BorderThickness="0" Cursor="Hand"/>
-            <Button Content="Cancel" Width="100" Height="32" Margin="6"
-                    Click="CancelButton_Click" FontSize="13"
-                    Background="#2D2D44" Foreground="#CCCCCC" BorderBrush="#3A3A5C" BorderThickness="1" Cursor="Hand"/>
+        <!-- Management Panel (shown via Ctrl+Shift+L from MainWindow) -->
+        <StackPanel x:Name="ManagementPanel" Visibility="Collapsed">
+            <TextBlock Text="License Management" FontSize="16" FontWeight="SemiBold" Foreground="#00B4D8" Margin="0,0,0,12"/>
+
+            <TextBlock Text="Machine ID:" Foreground="#8888AA" FontSize="12" Margin="0,0,0,4"/>
+            <TextBox x:Name="MgmtMachineIdTextBox" IsReadOnly="True"
+                     Background="#2D2D44" Foreground="White" Padding="6,4" FontFamily="Consolas" FontSize="12"
+                     BorderBrush="#3A3A5C" BorderThickness="1"/>
+
+            <TextBlock Text="License Key:" Foreground="#8888AA" FontSize="12" Margin="0,12,0,4"/>
+            <TextBox x:Name="MgmtLicenseKeyTextBox" IsReadOnly="True"
+                     Background="#2D2D44" Foreground="White" Padding="6,4" FontFamily="Consolas" FontSize="12"
+                     BorderBrush="#3A3A5C" BorderThickness="1"/>
+
+            <TextBlock Text="License Type:" Foreground="#8888AA" FontSize="12" Margin="0,12,0,4"/>
+            <TextBox x:Name="MgmtLicenseTypeTextBox" IsReadOnly="True"
+                     Background="#2D2D44" Foreground="White" Padding="6,4" FontSize="12"
+                     BorderBrush="#3A3A5C" BorderThickness="1"/>
+
+            <TextBlock Text="Status:" Foreground="#8888AA" FontSize="12" Margin="0,12,0,4"/>
+            <TextBox x:Name="MgmtStatusTextBox" IsReadOnly="True"
+                     Background="#2D2D44" Foreground="#66CC88" Padding="6,4" FontSize="12"
+                     BorderBrush="#3A3A5C" BorderThickness="1"/>
+
+            <TextBlock Foreground="#AA4444" FontSize="11" TextWrapping="Wrap" Margin="0,18,0,0"
+                       Text="⚠ Deactivating this license will release the seat and require re-activation to use this machine."/>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,16,0,0">
+                <Button x:Name="DeactivateButton" Content="⊘ Deactivate" Width="120" Height="32" Margin="6"
+                        Click="DeactivateButton_Click" FontSize="13" FontWeight="SemiBold"
+                        Background="#CC3344" Foreground="White" BorderThickness="0" Cursor="Hand"/>
+                <Button Content="Close" Width="100" Height="32" Margin="6"
+                        Click="CancelButton_Click" FontSize="13"
+                        Background="#2D2D44" Foreground="#CCCCCC" BorderBrush="#3A3A5C" BorderThickness="1" Cursor="Hand"/>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </Window>

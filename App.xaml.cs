@@ -16,6 +16,20 @@ namespace AuraScan_Ultrasound_System
             // Prevent shutdown when splash closes and MainWindow hasn't opened yet
             ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
+            // Enforce EULA acceptance on first launch
+            if (!EulaWindow.IsAccepted())
+            {
+                var eulaWindow = new EulaWindow();
+                var eulaResult = eulaWindow.ShowDialog();
+                if (eulaResult != true)
+                {
+                    MessageBox.Show("You must accept the End User License Agreement to use AuraScan. The application will now exit.",
+                        "EULA Required", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    Shutdown(1);
+                    return;
+                }
+            }
+
             // Enforce license activation on first run using Azure Blob-backed license server
             try
             {

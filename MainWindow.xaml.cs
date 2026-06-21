@@ -15,6 +15,35 @@ namespace AuraScan_Ultrasound_System
         {
             InitializeComponent();
             Closed += OnClosed;
+
+            // Hidden admin shortcut: Ctrl+Shift+L opens License Management (deactivation)
+            KeyDown += MainWindow_KeyDown;
+        }
+
+        private void MainWindow_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.L &&
+                Keyboard.Modifiers == (ModifierKeys.Control | ModifierKeys.Shift))
+            {
+                var mgmtWindow = new LicenseActivationWindow(managementMode: true);
+                mgmtWindow.Owner = this;
+                mgmtWindow.ShowDialog();
+                e.Handled = true;
+            }
+            else if (e.Key == Key.C &&
+                Keyboard.Modifiers == (ModifierKeys.Control | ModifierKeys.Shift))
+            {
+                var result = MessageBox.Show(this,
+                    "Are you sure you want to exit AuraScan?",
+                    "Confirm Exit",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Question);
+
+                if (result == MessageBoxResult.Yes)
+                    Close();
+
+                e.Handled = true;
+            }
         }
 
         private void OnClosed(object? sender, EventArgs e)
@@ -80,9 +109,6 @@ namespace AuraScan_Ultrasound_System
             }
         }
 
-        private void CloseButton_Click(object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
+
     }
 }

@@ -243,6 +243,82 @@ namespace AuraScan.Core.Services
             }
         }
 
+        /// <summary>
+        /// Deactivates the current machine's license, freeing the seat for reuse.
+        /// Removes the machine from the pending blob's Activations list,
+        /// deletes the activated/{machineId}.json blob, and removes the local license file.
+        /// </summary>
+        public async Task<(bool Success, string Message)> DeactivateAsync()
+        {
+            var machineId = GetMachineId();
+            var timestamp = DateTime.UtcNow;
+
+            try
+            {
+                // Read local license to get the key
+                LicenseRecord? localRec = null;
+                if (File.Exists(_localLicensePath))
+                {
+                    var json = File.ReadAllText(_localLicensePath);
+                    localRec = JsonSerializer.Deserialize<LicenseRecord>(json);
+                }
+
+                var licenseKey = localRec?.LicenseKey ?? "(unknown)";
+
+                // Online deactivation: remove from Azure blobs
+                if (!_offlineMode && _container != null && localRec?.LicenseKey != null)
+                {
+                    // 1. Remove machine from pending/{key}.json Activations[]
+                    var pendingName = $"pending/{localRec.LicenseKey}.json";
+                    var pendingBlob = _container.GetBlobClient(pendingName);
+                    if (await pendingBlob.ExistsAsync())
+                    {
+                        var download = await pendingBlob.DownloadContentAsync();
+                        var pendingJson = download.Value.Content.ToString();
+                        var pendingRec = JsonSerializer.Deserialize<LicenseRecord>(pendingJson);
+                        if (pendingRec?.Activations != null)
+                        {
+                            int removed = pendingRec.Activations.RemoveAll(a =>
+                                string.Equals(a.MachineId, machineId, StringComparison.OrdinalIgnoreCase));
+
+                            if (removed > 0)
+                            {
+                                var updatedJson = JsonSerializer.Serialize(pendingRec, new JsonSerializerOptions { WriteIndented = true });
+                                using var ms = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(updatedJson));
+                                await pendingBlob.UploadAsync(ms, overwrite: true);
+                            }
+                        }
+                    }
+
+                    // 2. Delete activated/{machineId}.json blob
+                    var activatedName = $"activated/{machineId}.json";
+                    var activatedBlob = _container.GetBlobClient(activatedName);
+                    await activatedBlob.DeleteIfExistsAsync();
+                }
+
+                // 3. Delete local license file
+                if (File.Exists(_localLicensePath))
+                    File.Delete(_localLicensePath);
+
+                LogActivationAttempt(licenseKey, machineId, timestamp, success: true, offline: _offlineMode,
+                    message: "License deactivated — seat released");
+
+                return (true, "License deactivated. This machine's seat has been freed.");
+            }
+            catch (RequestFailedException rf)
+            {
+                LogActivationAttempt("(deactivate)", machineId, timestamp, success: false, offline: false,
+                    message: $"Azure request failed: {rf.Message}");
+                return (false, $"Deactivation failed (Azure): {rf.Message}");
+            }
+            catch (Exception ex)
+            {
+                LogActivationAttempt("(deactivate)", machineId, timestamp, success: false, offline: _offlineMode,
+                    message: ex.Message);
+                return (false, $"Deactivation failed: {ex.Message}");
+            }
+        }
+
         private void LogActivationAttempt(string licenseKey, string machineId, DateTime timestamp, bool success, bool offline, string message)
         {
             try

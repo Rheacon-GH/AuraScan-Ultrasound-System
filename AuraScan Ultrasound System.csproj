@@ -16,6 +16,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="AuraScan_Ultrasound_System\Resources\EULA.txt" LogicalName="AuraScan_Ultrasound_System.Resources.EULA.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="fo-dicom" Version="5.2.6" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
   </ItemGroup>
